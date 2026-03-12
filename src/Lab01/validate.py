@@ -1,14 +1,12 @@
 from model import Teacher
 
 class TeacherValidator:
-    """Validator for Teacher class - tests all invariants and edge cases."""
     
     def __init__(self):
         self.passed = 0
         self.failed = 0
     
     def assert_raises(self, func, exception_type, description):
-        """Helper to check if function raises expected exception."""
         try:
             func()
             print(f"  ❌ FAIL: {description} - Expected {exception_type.__name__} but no exception raised")
@@ -24,7 +22,6 @@ class TeacherValidator:
             return False
     
     def assert_equals(self, actual, expected, description):
-        """Helper to check equality."""
         if actual == expected:
             print(f"  ✅ PASS: {description}")
             self.passed += 1
@@ -35,7 +32,6 @@ class TeacherValidator:
             return False
     
     def run_all_tests(self):
-        """Run all validation tests."""
         print("=" * 60)
         print("TEACHER CLASS VALIDATION")
         print("=" * 60)

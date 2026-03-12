@@ -106,3 +106,6 @@ class Teacher:
         return (self.personal_info[0] == other.personal_info[0] and 
                 self.personal_info[1] == other.personal_info[1] and
                 self.subject == other.subject)
+
+    def __hash__(self):
+        return hash((self.personal_info[0], self.personal_info[1], self.subject))
