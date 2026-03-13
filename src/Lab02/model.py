@@ -38,12 +38,3 @@ class TeacherManagement:
     def __iter__(self):
         return iter(self._collection)
 
-
-alice = Teacher("Alice Johnson", 35, "Senior Lecturer", "Mathematics")
-alice2 = Teacher("Alice Johnson", 18, "Penis", "Sex")
-bob = Teacher("Bob Smith", 42, "Professor", "Physics")
-tm = TeacherManagement()
-tm.update(alice)
-tm.update(bob)
-tm.update(alice2)
-print(alice in tm)
