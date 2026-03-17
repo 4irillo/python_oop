@@ -1,24 +1,14 @@
-"""
-Teacher Class Demo
-==================
-This script demonstrates all capabilities of the Teacher class
-alongside intentional errors that trigger the validation system.
-"""
-
 from model import Teacher
 
 def print_section(title):
-    """Helper to print formatted section headers."""
     print(f"\n{'='*60}")
     print(f"  {title}")
     print(f"{'='*60}")
 
 def print_success(msg):
-    """Helper for success messages."""
     print(f"  ✓ {msg}")
 
 def print_error(msg):
-    """Helper for error messages."""
     print(f"  ✗ ERROR: {msg}")
 
 # =============================================================================
@@ -356,22 +346,3 @@ charlie.assign_group("CS303")
 print_success(f"Returned! New rank: {charlie.get_rank()}, teaching: {charlie.groups}")
 
 print(f"\n  Final state: {repr(charlie)}")
-
-# =============================================================================
-# SUMMARY
-# =============================================================================
-print_section("DEMO COMPLETED SUCCESSFULLY")
-print("  All class capabilities demonstrated:")
-print("    • Teacher creation with validation")
-print("    • Rating system with bounds checking")
-print("    • Group assignment/unassignment")
-print("    • Active/inactive state management")
-print("    • Personal info updates with validation")
-print("    • Object representation and equality")
-print("\n  All error prevention systems verified:")
-print("    • Type checking (strings, integers)")
-print("    • Range validation (ages, scores)")
-print("    • Empty/whitespace string prevention")
-print("    • State-dependent operation restrictions")
-print("    • Duplicate prevention")
-print("    • Business logic enforcement (no age decrease, etc.)")
