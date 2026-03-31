@@ -1,12 +1,23 @@
+"""
+Test suite for Teacher class validation.
+
+This module provides comprehensive tests for the Teacher class,
+verifying all validation rules and business logic.
+"""
+
 from model import Teacher
+from validation import ValidationError, StateError
+
 
 class TeacherValidator:
+    """Test suite for Teacher class."""
     
     def __init__(self):
         self.passed = 0
         self.failed = 0
     
     def assert_raises(self, func, exception_type, description):
+        """Assert that function raises expected exception."""
         try:
             func()
             print(f"  ❌ FAIL: {description} - Expected {exception_type.__name__} but no exception raised")
@@ -22,6 +33,7 @@ class TeacherValidator:
             return False
     
     def assert_equals(self, actual, expected, description):
+        """Assert that actual value equals expected."""
         if actual == expected:
             print(f"  ✅ PASS: {description}")
             self.passed += 1
@@ -32,6 +44,7 @@ class TeacherValidator:
             return False
     
     def run_all_tests(self):
+        """Run all test suites."""
         print("=" * 60)
         print("TEACHER CLASS VALIDATION")
         print("=" * 60)
@@ -50,6 +63,7 @@ class TeacherValidator:
     
     # ========== CONSTRUCTOR TESTS ==========
     def test_constructor_invariants(self):
+        """Test constructor validation."""
         print("\n📋 Testing Constructor Invariants...")
         
         # Valid creation
@@ -64,41 +78,42 @@ class TeacherValidator:
         # Invalid name
         self.assert_raises(
             lambda: Teacher("", 35, "Professor", "Math"),
-            ValueError, "Empty name raises ValueError"
+            ValidationError, "Empty name raises ValidationError"
         )
         self.assert_raises(
             lambda: Teacher(123, 35, "Professor", "Math"),
-            ValueError, "Non-string name raises ValueError"
+            ValidationError, "Non-string name raises ValidationError"
         )
         
         # Invalid age
         self.assert_raises(
             lambda: Teacher("John", 17, "Professor", "Math"),
-            ValueError, "Age < 18 raises ValueError"
+            ValidationError, "Age < 18 raises ValidationError"
         )
         self.assert_raises(
             lambda: Teacher("John", 101, "Professor", "Math"),
-            ValueError, "Age > 100 raises ValueError"
+            ValidationError, "Age > 100 raises ValidationError"
         )
         self.assert_raises(
             lambda: Teacher("John", "35", "Professor", "Math"),
-            ValueError, "Non-int age raises ValueError"
+            ValidationError, "Non-int age raises ValidationError"
         )
         
         # Invalid rank
         self.assert_raises(
             lambda: Teacher("John", 35, "", "Math"),
-            ValueError, "Empty rank raises ValueError"
+            ValidationError, "Empty rank raises ValidationError"
         )
         
         # Invalid subject
         self.assert_raises(
             lambda: Teacher("John", 35, "Professor", ""),
-            ValueError, "Empty subject raises ValueError"
+            ValidationError, "Empty subject raises ValidationError"
         )
     
     # ========== RATING SYSTEM TESTS ==========
     def test_rating_system(self):
+        """Test rating functionality."""
         print("\n⭐ Testing Rating System...")
         
         t = Teacher("Jane Smith", 40, "PhD", "Physics")
@@ -115,16 +130,17 @@ class TeacherValidator:
         self.assert_equals(t.get_rating(), expected, "Average of three ratings is correct")
         
         # Invalid ratings
-        self.assert_raises(lambda: t.rate(5.1), ValueError, "Rating > 5 raises ValueError")
-        self.assert_raises(lambda: t.rate(-0.1), ValueError, "Rating < 0 raises ValueError")
-        self.assert_raises(lambda: t.rate("5"), ValueError, "String rating raises ValueError")
+        self.assert_raises(lambda: t.rate(5.1), ValidationError, "Rating > 5 raises ValidationError")
+        self.assert_raises(lambda: t.rate(-0.1), ValidationError, "Rating < 0 raises ValidationError")
+        self.assert_raises(lambda: t.rate("5"), ValidationError, "String rating raises ValidationError")
         
         # Rating inactive teacher
         t.deactivate()
-        self.assert_raises(lambda: t.rate(4.0), AttributeError, "Rating inactive teacher raises AttributeError")
+        self.assert_raises(lambda: t.rate(4.0), StateError, "Rating inactive teacher raises StateError")
     
     # ========== GROUP MANAGEMENT TESTS ==========
     def test_group_management(self):
+        """Test group assignment functionality."""
         print("\n👥 Testing Group Management...")
         
         t = Teacher("Bob Wilson", 45, "Associate Prof", "Chemistry")
@@ -139,13 +155,13 @@ class TeacherValidator:
         # Duplicate group
         self.assert_raises(
             lambda: t.assign_group("Group A"),
-            ValueError, "Duplicate group assignment raises ValueError"
+            ValidationError, "Duplicate group assignment raises ValidationError"
         )
         
         # Invalid group name
         self.assert_raises(
             lambda: t.assign_group(""),
-            ValueError, "Empty group name raises ValueError"
+            ValidationError, "Empty group name raises ValidationError"
         )
         
         # Assign to inactive teacher
@@ -153,7 +169,7 @@ class TeacherValidator:
         t2.deactivate()
         self.assert_raises(
             lambda: t2.assign_group("Group X"),
-            AttributeError, "Assigning to inactive teacher raises AttributeError"
+            StateError, "Assigning to inactive teacher raises StateError"
         )
         
         # Unassign groups
@@ -163,11 +179,12 @@ class TeacherValidator:
         # Unassign non-existent group
         self.assert_raises(
             lambda: t.unassign_group("Group Z"),
-            ValueError, "Unassigning non-existent group raises ValueError"
+            ValidationError, "Unassigning non-existent group raises ValidationError"
         )
     
     # ========== ACTIVE STATE TESTS ==========
     def test_active_state_management(self):
+        """Test active state management."""
         print("\n🔘 Testing Active State Management...")
         
         t = Teacher("Alice", 50, "Prof", "CS")
@@ -177,7 +194,7 @@ class TeacherValidator:
         t.assign_group("CS101")
         self.assert_raises(
             lambda: t.deactivate(),
-            AttributeError, "Cannot deactivate with assigned groups"
+            StateError, "Cannot deactivate with assigned groups"
         )
         
         # Can deactivate after removing groups
@@ -191,6 +208,7 @@ class TeacherValidator:
     
     # ========== PERSONAL INFO TESTS ==========
     def test_personal_info_management(self):
+        """Test personal info update functionality."""
         print("\n📝 Testing Personal Info Management...")
         
         t = Teacher("Old Name", 30, "Lecturer", "Math")
@@ -200,7 +218,7 @@ class TeacherValidator:
         self.assert_equals(t.get_name(), "New Name", "Name updated successfully")
         self.assert_raises(
             lambda: t.update_name(""),
-            ValueError, "Empty name update raises ValueError"
+            ValidationError, "Empty name update raises ValidationError"
         )
         
         # Update age
@@ -208,7 +226,7 @@ class TeacherValidator:
         self.assert_equals(t.get_age(), 35, "Age updated successfully")
         self.assert_raises(
             lambda: t.update_age(17),
-            ValueError, "Invalid age update raises ValueError"
+            ValidationError, "Invalid age update raises ValidationError"
         )
         
         # Update rank
@@ -219,11 +237,12 @@ class TeacherValidator:
         t.deactivate()
         self.assert_raises(
             lambda: t.update_rank("Professor"),
-            AttributeError, "Cannot update rank when inactive"
+            StateError, "Cannot update rank when inactive"
         )
     
     # ========== OBJECT EQUALITY TESTS ==========
     def test_object_equality(self):
+        """Test magic methods."""
         print("\n🔄 Testing Object Equality...")
         
         t1 = Teacher("John", 30, "Prof", "Math")

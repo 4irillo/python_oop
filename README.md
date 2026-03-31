@@ -1,20 +1,71 @@
-# Проектирование класса
-Это мой план по созданию класса Teacher. Скобочкой выделены атрибуты, остальное методы
-![img](./img/Lab01/Plan.png)
-Потом я начал продумывать инварианты, в ходе чего я понял что сабжект обязан быть строкой, группы обязаны быть множеством, имя + возраст + ранг (я решил его тоже учитывать) будут одним списком параметров, так же скор будет даблом от 0 до 5, ну а состояние активности будет булевой переменной.
-После этого я занялся проработкой всех методов и интерфейсов, т.к. управление учителем должно (на мой взгляд) быть понятно любому кентику, я решил всецело реализовать его через интерфейсы, не давая возможности юзеру испоганить все на свете. Вооооооооот.....
-После составления списка существующих штуковин в области, определения характеристик/действий объекта в области (опять же), просчета инвариантов я приступил к анализу объектов.
-На мой взгляд объекты считаются одинаковыми, когда у них одинаковое имя, возраст и преподаваемый предмет, это я и реализовал в мэджик методе __eq__. Состояния объекта всего 2: преподаватель либо актив, либо инактив, из чего можно сделать вывод, что все методы, меняющие что либо могут работать ТОЛЬКО когда объект активен.
-# Шоукейс всего что класс умеет
-Создаем учителей
-![img](./img/Lab01/teacher_creation.png)
-Система оценивания
-![img](./img/Lab01/ranking_system.png)
-Система управления группами
-![img](./img/Lab01/group_management.png)
-Система управления персональными данными
-![img](./img/Lab01/pers_info_management.png)
-Система управления состоянием
-![img](./img/Lab01/active_state_management.png)
-Магические методы
-![img](./img/Lab01/magic_methods.png)
+# Python OOP Laboratory Works
+
+This repository contains laboratory works for the Object-Oriented Programming in Python course.
+
+## Repository Structure
+
+```
+python_oop/
+├─ README.md                 # This file
+├─ src/                      # Source code
+│  ├─ Lab01/                 # Laboratory Work 1
+│  │   ├─ __init__.py
+│  │   ├─ model.py           # Teacher class implementation
+│  │   ├─ validation.py      # Input validation module
+│  │   ├─ demo.py            # Demonstration script
+│  │   ├─ validate.py        # Test suite
+│  │   └─ README.md          # Lab01 report
+│  └─ Lab02/                 # Laboratory Work 2
+│      ├─ model.py
+│      ├─ demo.py
+│      └─ validate.py
+```
+
+## Laboratory Work 1: Class and Encapsulation
+
+**Topic:** Implementation of a `Teacher` class with encapsulation and validation.
+
+**Key Features:**
+- ✅ Encapsulation with private attributes
+- ✅ Comprehensive input validation
+- ✅ Business methods (rating system, group management)
+- ✅ State management (active/inactive)
+- ✅ Magic methods (`__repr__`, `__eq__`, `__hash__`)
+- ✅ Validation extracted to separate module (`validation.py`)
+
+**Grade:** 5 (all requirements met)
+
+### Running Lab01
+
+```bash
+cd src/Lab01
+
+# Run demonstration
+python demo.py
+
+# Run test suite
+python validate.py
+```
+
+### Lab01 Files
+
+| File | Description |
+|------|-------------|
+| `model.py` | Teacher class with all business logic |
+| `validation.py` | Reusable validation functions |
+| `demo.py` | Interactive demonstration of all features |
+| `validate.py` | Comprehensive test suite (39 tests) |
+| `README.md` | Detailed report with answers to questions |
+
+## Laboratory Work 2
+
+See `src/Lab02/README.md` for details.
+
+## Requirements
+
+- Python 3.8+
+- No external dependencies (standard library only)
+
+## Author
+
+Student repository for OOP Python course.
